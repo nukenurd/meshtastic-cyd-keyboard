@@ -1,0 +1,1 @@
+{"name":"Meshtastic CYD Keyboard v2.1","version":"2.1","builds":[{"chipFamily":"ESP32","parts":[{"path":"cyd-keyboard-v2.1-factory.bin","offset":0}]}]}

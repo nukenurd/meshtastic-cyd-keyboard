@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Meshtastic CYD Flasher v2.1</title>
+<script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+<style>
+body{font-family:system-ui;background:#0a0a0a;color:#eee;max-width:700px;margin:0 auto;padding:20px}
+.card{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:20px;margin:16px 0}
+h1{color:#00ff88} .green{color:#00ff88} .cyan{color:#00ddff}
+pre{background:#000;padding:12px;border-radius:8px;overflow:auto}
+esp-web-install-button button{background:#00ff88;color:#000;border:0;padding:12px 24px;border-radius:8px;font-weight:bold;cursor:pointer}
+</style>
+</head>
+<body>
+<h1>Meshtastic CYD Keyboard v2.1</h1>
+<p>ESP32-2432S028R (2.8" Cheap Yellow Display) -> Heltec V3 Terminal</p>
+
+<div class="card">
+<h3>1-Click Flash</h3>
+<p>Connect CYD via USB, use Chrome/Edge</p>
+<esp-web-install-button manifest="manifest.json">
+  <button slot="activate">CONNECT & FLASH CYD</button>
+</esp-web-install-button>
+<p><small>If no binary yet, build via GitHub Action below</small></p>
+</div>
+
+<div class="card">
+<h3>Wiring</h3>
+<pre>
+Heltec V3              CYD 2.8"
+-------------------------------
+GPIO 6 (TX1)  ----->  GPIO 22 (RX2)
+GPIO 7 (RX1)  <-----  GPIO 27 (TX2)
+GND           ------  GND
+5V            ------  5V
+
+Enable on Heltec:
+meshtastic --set serial.enabled true
+meshtastic --set serial.txd 6
+meshtastic --set serial.rxd 7
+meshtastic --set serial.baud 115200
+meshtastic --set serial.mode TEXTMSG
+</pre>
+</div>
+
+<div class="card">
+<h3>Features v2.1 + Channel Swap</h3>
+<ul>
+<li><span class="green">Splash screen</span> with boot progress</li>
+<li><span class="green">4-point calibration</span> saved to NVS - hold top-left on boot to redo</li>
+<li><span class="cyan">Tap CH bar</span> to open channel selector (8 channels: LongFast etc)</li>
+<li>Or type <code>/ch0</code> to <code>/ch7</code> + SEND to quick swap</li>
+<li>14-line message log, QWERTY with SHIFT/123, SPACE, DEL, SEND</li>
+<li>Status bar: MESH / CH name / LINK dot</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>GitHub Action Build</h3>
+<pre>
+1. Create repo github.com/YOURNAME/meshtastic-cyd-keyboard
+2. Upload all files from this project
+3. GitHub -> Actions -> Build CYD Keyboard Firmware -> Run
+4. After 3 min, download artifact: cyd-keyboard-v2.1-factory.bin
+5. Put .bin in same folder as this HTML, flash!
+</pre>
+<p>Or local: <code>pio run -e esp32-2432s028r</code> then <code>esptool.py write_flash 0x0 .pio/build/.../firmware.factory.bin</code></p>
+</div>
+
+</body>
+</html>
